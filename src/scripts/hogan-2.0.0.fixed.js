@@ -573,7 +573,11 @@ var Hogan = {};
             return t;
         }
 
-        t = this.generate(this.parse(this.scan(text, options.delimiters), text, options), text, options);
+        t = this.generate(
+            this.parse(
+                this.scan(text, options.delimiters), text, options
+            ), text, options
+        );
         return this.cache[key] = t;
     };
 
