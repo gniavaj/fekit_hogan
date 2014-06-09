@@ -169,7 +169,11 @@ var Hogan = {};
         // template result buffering
         b: (useArrayBuffer) ? function(s) { this.buf.push(s); } :
             function(s) { this.buf += s; },
-        fl: (useArrayBuffer) ? function() { var r = this.buf.join(''); this.buf = []; return r; } :
+        fl: (useArrayBuffer) ? function() {
+            var r = this.buf.join('');
+            this.buf = [];
+            return r;
+        } :
             function() { var r = this.buf; this.buf = ''; return r; },
 
         // lambda replace section
