@@ -260,7 +260,7 @@ var Hogan = {};
             '#': 1, '^': 2, '/': 3,  '!': 4, '>': 5,
             '<': 6, '=': 7, '_v': 8, '{': 9, '&': 10
         };
-
+    //return tokens
     Hogan.scan = function scan(text, delimiters) {
         var len = text.length,
             IN_TEXT = 0,
@@ -367,8 +367,13 @@ var Hogan = {};
                 seenTag = i;
             } else {
                 if (tagChange(ctag, text, i)) {
-                    tokens.push({tag: tagType, n: trim(buf), otag: otag, ctag: ctag,
-                        i: (tagType == '/') ? seenTag - ctag.length : i + otag.length});
+                    tokens.push({
+                        tag: tagType,
+                        n: trim(buf),
+                        otag: otag,
+                        ctag: ctag,
+                        i: (tagType == '/') ? seenTag - ctag.length : i + otag.length
+                    });
                     buf = '';
                     i += ctag.length - 1;
                     state = IN_TEXT;
@@ -403,7 +408,7 @@ var Hogan = {};
 
         return s.replace(/^\s*|\s*$/g, '');
     }
-
+    //判断从text[index]开始 是否是一个tag的开始标记或结束标记
     function tagChange(tag, text, index) {
         if (text.charAt(index) != tag.charAt(0)) {
             return false;
@@ -493,8 +498,14 @@ var Hogan = {};
         for (var i = 0, l = tree.length; i < l; i++) {
             var tag = tree[i].tag;
             if (tag == '#') {
-                code.push(section(tree[i].nodes, tree[i].n, chooseMethod(tree[i].n),
-                    tree[i].i, tree[i].end, tree[i].otag + " " + tree[i].ctag));
+                code.push(
+                    section(
+                        tree[i].nodes, tree[i].n,
+                        chooseMethod(tree[i].n),
+                        tree[i].i, tree[i].end,
+                        tree[i].otag + " " + tree[i].ctag
+                    )
+                );
             } else if (tag == '^') {
                 code.push(invertedSection(tree[i].nodes, tree[i].n,
                     chooseMethod(tree[i].n)));
