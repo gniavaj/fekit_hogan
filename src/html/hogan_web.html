@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../scripts/hogan-2.0.0.fixed.js"></script>
+</head>
+<body>
+    <script>
+
+        var template = [
+            '{{#name}}',
+            'mike',
+            '{{/name}}'
+        ].join('');
+
+        debugger
+        Hogan.compile(template, {
+            asString: true
+        });
+    </script>
+</body>
+</html>
