@@ -8,15 +8,29 @@
     <script>
 
         var template = [
-            '{{#name}}',
-            'mike',
-            '{{/name}}'
+            '{{#pctx.name}}',
+            '{{name}}',
+            '{{/pctx.name}}'
         ].join('');
 
+
+        var hoganTemplate = Hogan.compile(template);
+
         debugger
-        Hogan.compile(template, {
-            asString: true
+        var html = hoganTemplate.render({
+            pctx: {
+                name: {
+                    name: 'dada'
+                },
+                cctx: {
+                    name: function(){
+                        return true;
+                    }
+                }
+            }
         });
+
+        console.log(html);
     </script>
 </body>
 </html>

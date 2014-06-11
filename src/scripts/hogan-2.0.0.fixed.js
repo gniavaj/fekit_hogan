@@ -144,11 +144,15 @@ var Hogan = {};
                 }
             }
 
+            //如果没找到 直接返回
+            //根据returnFound来决定返回false或""
             if (!found) {
                 return (returnFound) ? false : "";
             }
 
+            //key存在 val为fun
             if (!returnFound && typeof val == 'function') {
+                //函数执行返回值
                 val = this.lv(val, ctx, partials);
             }
 
@@ -474,7 +478,7 @@ var Hogan = {};
     }
 
     Hogan.generate = function (tree, text, options) {
-        var code = 'var _=this;_.b(i=i||"");' + walk(tree) + 'return _.fl();';
+        var code = 'var _=this;\n_.b(i=i||"");\n' + walk(tree) + '\nreturn _.fl();\n';
         if (options.asString) {
             return 'function(c,p,i){' + code + ';}';
         }
@@ -526,17 +530,16 @@ var Hogan = {};
 
     function section(nodes, id, method, start, end, tags) {
         return 'if(_.s(_.' + method + '("' + esc(id) + '",c,p,1),' +
-            'c,p,0,' + start + ',' + end + ',"' + tags + '")){' +
-            '_.rs(c,p,' +
-            'function(c,p,_){' +
+            'c,p,0,' + start + ',' + end + ',"' + tags + '")){\n' +
+            '    _.rs(c,p,' + 'function(c,p,_){\n' +
             walk(nodes) +
-            '});c.pop();}';
+            '});\nc.pop();\n}';
     }
 
     function invertedSection(nodes, id, method) {
-        return 'if(!_.s(_.' + method + '("' + esc(id) + '",c,p,1),c,p,1,0,0,"")){' +
+        return 'if(!_.s(_.' + method + '("' + esc(id) + '",c,p,1),c,p,1,0,0,"")){\n' +
             walk(nodes) +
-            '};';
+            '};\n';
     }
 
     function partial(tok) {
