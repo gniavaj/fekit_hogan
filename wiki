@@ -1,0 +1,59 @@
+Qunar使用的js模板引擎是twitter开发的hogan.js。
+该模板是Mustache模板语言的一个实现，所以语法和Mustache是相同的。
+由于Mustache官方文档(链接)过于简单，一些细节没有写清楚，所在我在这总结了下hogan.js的详细用法。
+
+
+Mustache模板动态内容是通过标签展现的。
+所谓标签就是以{{开头}}结束的段落
+在mustache中有以下几种标签
+
+1 变量 Variables
+{{variableName}} 或  {{nameA.nameB.nameC...}}
+用途 输出变量值
+
+变量标签在求值时 会在当前上下文中查找是否存在variableName这个属性。若果有则返回对应的值，如果没有会继续沿着下一层上下文查找。
+如果找到最外层上下文还没有，那就会返回空字符串。
+
+所有变量的值默认都会进行html转义。如果你不想进行html转义，你可以使用{{{name}}}或{{& name}}。
+
+eg:
+Hello {{name}}
+You have just won {{value}} dollars!
+
+{
+  "name": "Chris",
+  "value": 10000
+}
+
+如果variableName对应值是一个函数，那么引擎会调用这个函数，并以当前的上下文作为函数的this。以函数的返回值作为输出值。
+eg:
+
+
+2 区段
+{{#person}}{{/person}}
+逻辑判断 或 遍历数组
+
+逻辑判断
+false 或 空数组都不会显示
+都哪些值是false?
+
+name为对象   会改变上下文
+a.b.c 只有最后求值是对象才会将这个对象添加到上下文栈中
+
+eg:
+
+遍历数组
+每一项的上下文是当前值
+
+反向区端
+{{^person}}{{/person}}
+false 空数组
+反向区端不会改变上下文栈
+
+解释下hogan.js2.0.0上下文
+
+Lambdas？？
+
+Partials？？
+
+Set Delimiter
